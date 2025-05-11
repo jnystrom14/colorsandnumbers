@@ -1,0 +1,48 @@
+<!— app/views/home/print_calendar.html.erb —>
+
+<h1>Calendar: <%= @range_start.strftime('%B %Y') %></h1>
+
+<%
+  # Compute the Sunday before range_start and the Saturday after range_end
+  if @range_start.day == 1 && @range_end == @range_start.end_of_month
+    month_start = @range_start
+    first_day   = month_start - month_start.wday
+    last_day    = @range_end   + (6 - @range_end.wday)
+  else
+    first_day = @range_start - @range_start.wday
+    last_day  = @range_end   + (6 - @range_end.wday)
+  end
+  weeks = (first_day..last_day).to_a.each_slice(7).to_a
+%>
+
+<table class="calendar">
+  <thead>
+    <tr>
+      <% Date::ABBR_DAYNAMES.each do |day| %>
+        <th><%= day %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% weeks.each do |week| %>
+      <tr>
+        <% week.each do |date| %>
+          <td>
+            <% if date >= @range_start && date <= @range_end %>
+              <strong><%= date.day %></strong><br/>
+              <% entry = @range_results.find { |e| e[:date] == date } %>
+              <% if entry %>
+                <span style="color:<%= entry[:numerology].color.downcase %>">
+                  <%= entry[:numerology].number %> | <%= entry[:numerology].color %>
+                </span><br/>
+                <span style="font-size:0.8em; color:#555;">
+                  <%= entry[:numerology].gem %>
+                </span>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

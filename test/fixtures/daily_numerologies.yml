@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  birth_date: 2025-05-10
+  color: MyString
+  number: 1
+  gem: MyString
+  affirmation: MyText
+  word: MyString
+
+two:
+  birth_date: 2025-05-10
+  color: MyString
+  number: 1
+  gem: MyString
+  affirmation: MyText
+  word: MyString

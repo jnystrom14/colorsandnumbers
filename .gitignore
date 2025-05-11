@@ -1,0 +1,10 @@
+/log/
+/tmp/
+/config/master.key
+/db/*.sqlite3
+/node_modules/
+/.yarn-integrity
+.byebug_history
+.DS_Store
+.bundle/
+/.env

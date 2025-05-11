@@ -1,0 +1,12 @@
+<h1>Numerology for <%= @daily_numerology.birth_date.strftime('%B %-d, %Y') %></h1>
+
+<p><strong>Number:</strong>      <%= @daily_numerology.number %></p>
+<p><strong>Color:</strong>
+  <span style="color:<%= @daily_numerology.color.downcase %>"><%= @daily_numerology.color %></span>
+</p>
+<p><strong>Gem:</strong>         <%= @daily_numerology.gem %></p>
+<p><strong>Affirmation:</strong> <em><%= @daily_numerology.affirmation %></em></p>
+<p><strong>Word:</strong>        <%= @daily_numerology.word %></p>
+
+<%= link_to 'Back to Home', root_path %>
+

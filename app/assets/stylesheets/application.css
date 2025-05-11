@@ -1,0 +1,134 @@
+/* GLOBAL */
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding: 2em;
+    background: #fafafa;
+  }
+  
+  h1, h3 {
+    font-family: 'Georgia', serif;
+    color: #222;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 2em 0;
+  }
+  
+  /* RESULT BOX */
+  .result {
+    background: white;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 2em;
+  }
+  
+  /* FORMS */
+  .field {
+    margin-bottom: 1em;
+  }
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.3em;
+  }
+  input[type="date"] {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .button, .actions input[type="submit"], button {
+    background: #5c6ac4;
+    color: white;
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+  }
+  .button:hover, .actions input[type="submit"]:hover, button:hover {
+    background: #4a54a1;
+  }
+  
+  /* CALENDAR SCREEN STYLES */
+  table.calendar {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 2em;
+  }
+  table.calendar th {
+    background: #5c6ac4;
+    color: white;
+    padding: 0.8em;
+  }
+  table.calendar td {
+    background: #fff;
+    padding: 0.6em;
+    vertical-align: top;
+    font-size: 0.85em;
+    height: 100px;
+    word-wrap: break-word;
+  }
+  table.calendar td:nth-child(1),
+  table.calendar th:nth-child(1) {
+    background: #f9f9f9;
+  }
+  
+  /* PRINT STYLES (for print.html.erb layout) */
+  @media print {
+    /* Landscape orientation */
+    @page {
+      size: landscape;
+      margin: 0;
+    }
+  
+    html, body {
+      margin: 0;
+      padding: 1em;
+      background: white;
+    }
+  
+    table.calendar {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      border: 2px solid #333 !important;
+      box-shadow: none !important;
+      margin: 0;
+    }
+    table.calendar th, table.calendar td {
+      border: 1px solid #ccc !important;
+      padding: 4px !important;
+      font-size: 0.8em !important;
+      page-break-inside: avoid !important;
+    }
+  
+    /* Ensure header (if multiple pages) repeats */
+    table.calendar thead {
+      display: table-header-group;
+    }
+  }
+  @media print {
+    /* Shrink the entire calendar’s typography */
+    table.calendar {
+      font-size: 0.7em !important;
+    }
+    
+    /* Tighten cell padding */
+    table.calendar th, table.calendar td {
+      padding: 2px !important;
+    }
+    
+    /* Ensure no page-breaks inside calendar */
+    table.calendar, table.calendar * {
+      page-break-inside: avoid !important;
+    }
+  }
+  
+    

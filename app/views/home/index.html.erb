@@ -1,0 +1,110 @@
+<h1>Nancy’s Numerology for <%= @display_date.strftime('%B %-d, %Y') %></h1>
+
+<div class="result">
+  <p><strong>Number:</strong>      <%= @result.number %></p>
+  <p><strong>Color:</strong>
+    <span style="color:<%= @result.color.downcase %>"><%= @result.color %></span>
+  </p>
+  <p><strong>Gem:</strong>         <%= @result.gem %></p>
+  <p><strong>Affirmation:</strong> <em><%= @result.affirmation %></em></p>
+  <p><strong>Word:</strong>        <%= @result.word %></p>
+</div>
+
+<hr/>
+
+<h3>Calculate a Future Date</h3>
+<%= form_with url: root_path, method: :get, local: true do |f| %>
+  <div class="field">
+    <%= f.label :date, "Date to calculate:" %>
+    <%= f.date_field :date, value: @future_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Calculate", class: "button" %>
+  </div>
+<% end %>
+
+<hr/>
+
+<h3>Calculate a Date Range</h3>
+<form action="<%= root_path %>" method="get" class="actions">
+  <div class="field">
+    <label for="start_date">Start (inclusive):</label>
+    <input type="date" id="start_date" name="start_date" value="<%= @range_start %>">
+  </div>
+  <div class="field">
+    <label for="end_date">End (inclusive):</label>
+    <input type="date" id="end_date" name="end_date" value="<%= @range_end %>">
+  </div>
+  <div class="actions">
+    <button type="submit" class="button">Calculate Range</button>
+  </div>
+</form>
+
+<hr/>
+
+<h3>Next Calendar Month</h3>
+<form action="<%= root_path %>" method="get" class="actions">
+  <input type="hidden" name="start_date" value="<%= Date.today.next_month.beginning_of_month %>">
+  <input type="hidden" name="end_date"   value="<%= Date.today.next_month.end_of_month %>">
+  <button type="submit" class="button">Calculate Next Calendar Month</button>
+</form>
+
+<% if @range_results.present? %>
+  <hr/>
+
+  <h3>Calendar: <%= @range_start.strftime('%B %Y') %></h3>
+
+  <%
+    # Determine grid start/end differently for full months vs. arbitrary ranges
+    if @range_start.day == 1 && @range_end == @range_start.end_of_month
+      # Full calendar month
+      month_start = @range_start
+      first_day   = month_start - month_start.wday
+      last_day    = @range_end   + (6 - @range_end.wday)
+    else
+      # Custom date range
+      first_day = @range_start - @range_start.wday
+      last_day  = @range_end   + (6 - @range_end.wday)
+    end
+    weeks = (first_day..last_day).to_a.each_slice(7).to_a
+  %>
+
+  <table class="calendar">
+    <thead>
+      <tr>
+        <% Date::ABBR_DAYNAMES.each do |day| %>
+          <th><%= day %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% weeks.each do |week| %>
+        <tr>
+          <% week.each do |date| %>
+            <td>
+              <% if date >= @range_start && date <= @range_end %>
+                <strong><%= date.day %></strong><br/>
+                <% entry = @range_results.find { |e| e[:date] == date } %>
+                <% if entry %>
+                  <span style="color:<%= entry[:numerology].color.downcase %>">
+                    <%= entry[:numerology].number %> | <%= entry[:numerology].color %>
+                  </span><br/>
+                  <span style="font-size:0.8em; color:#555;">
+                    <%= entry[:numerology].gem %>
+                  </span>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="actions">
+    <%= link_to "Print",
+          calendar_pdf_path(start_date: @range_start, end_date: @range_end, format: :pdf),
+          class: "button",
+          target: "_blank" %>
+  </div>
+<% end %>

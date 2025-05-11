@@ -1,0 +1,52 @@
+<h1>Numerology for <%= @display_date.strftime('%B %-d, %Y') %></h1>
+
+<div class="result">
+  <p><strong>Number:</strong>
+     <%= @result.number %>
+  </p>
+  <p><strong>Color:</strong>
+    <span style="color:<%= @result.color.downcase %>">
+      <%= @result.color %>
+    </span>
+  </p>
+  <p><strong>Gem:</strong>
+     <%= @result.gem %>
+  </p>
+  <p><strong>Affirmation:</strong>
+     <em><%= @result.affirmation %></em>
+  </p>
+  <p><strong>Word:</strong>
+     <%= @result.word %>
+  </p>
+</div>
+
+<hr/>
+
+<h3>Calculate a Future Date</h3>
+<%= form_with url: root_path, method: :get, local: true do |f| %>
+  <div class="field">
+    <%= f.label :date, "Date to calculate:" %><br/>
+    <%= f.date_field :date, value: @future_date || Date.today %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Calculate" %>
+  </div>
+<% end %>
+
+<hr/>
+
+<h3>Calculate a Date Range</h3>
+<%= form_with url: root_path, method: :get, local: true do %>
+  <div class="field">
+    <%= label_tag :start_date, "Start (inclusive):" %><br/>
+    <%= date_field_tag :start_date, @range_start %>
+  </div>
+  <div class="field">
+    <%= label_tag :end_date, "End (inclusive):" %><br/>
+    <%= date_field_tag :end_date, @range_end %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Calculate Range" %>
+  </div>
+<% end %>
+
