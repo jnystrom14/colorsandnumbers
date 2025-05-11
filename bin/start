@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+# 1. Make sure gems are installed
+bundle check || bundle install
+
+# 2. Run pending migrations against the live DB
+RAILS_ENV=production bundle exec rails db:migrate
+
+# 3. Precompile assets if missing (optional safety)
+RAILS_ENV=production bundle exec rails assets:precompile
+
+# 4. Finally, boot Puma
+bundle exec puma -C config/puma.rb
